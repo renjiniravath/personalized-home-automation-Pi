@@ -2,6 +2,7 @@ import RPi.GPIO as GPIO
 from mfrc522 import SimpleMFRC522
 import http.client
 import json
+import time
 
 reader = SimpleMFRC522()
 basketConn = http.client.HTTPSConnection("getpantry.cloud")
@@ -32,10 +33,13 @@ def readNameAndReturnUpdatedOccupants():
     name = name.strip()
     room = getBasketValue("Room-"+roomID)
     occupants = room["occupants"]
+    print("Previous occupants of the room ",occupants)
     if name in occupants:
         occupants.remove(name)
+        print("Goodbye ",name, "!")
     else:
         occupants.append(name)
+        print("Welcome to the room ",name, "!")
         occupants.sort()
     return occupants
 
@@ -53,19 +57,24 @@ def getPreferenceFromOccupants(occupants):
     else:
         occupantsString = "-".join(occupants)
     preferences = getBasketValue("Preferences-"+occupantsString)
+    print("Preferences changed to Preferences-"+occupantsString)
     return preferences
 
 try:
     while True:
+        print("Scanner ready to scan. You may scan now")
         occupants = readNameAndReturnUpdatedOccupants()
-        print(occupants)
+        print("Updated occupants of the room ",occupants)
         response = updateOccupantsInRoom(occupants)
         print(response)
         preferences = getPreferenceFromOccupants(occupants)
         print(preferences)
+        print("Wait till prompted other wise to scan again")
+        time.sleep(5)
 except KeyboardInterrupt:
     GPIO.cleanup()
-except:
+except Exception as err:
+    print("Unexpected error occured: ",err)
     GPIO.cleanup()
 
 
