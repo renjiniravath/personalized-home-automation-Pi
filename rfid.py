@@ -23,7 +23,7 @@ try:
             readValue()
         else:
             print("Thank you!")
-        time.sleep(5)
+        time.sleep(2)
 except KeyboardInterrupt:
     GPIO.cleanup()
 except Exception as err:
