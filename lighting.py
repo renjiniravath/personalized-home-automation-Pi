@@ -57,7 +57,7 @@ def lightsOff():
 	turnOff(pwmGreen)
 	turnOff(pwmBlue)
 
-def changeLight(lightColor, lightBrightness):
+def setLight(lightColor, lightBrightness):
 	global brightness
 	brightness = lightBrightness
 	lightsOff()

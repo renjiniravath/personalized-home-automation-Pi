@@ -2,7 +2,9 @@ import RPi.GPIO as GPIO
 from mfrc522 import SimpleMFRC522
 import time
 from handler import makeAPIRequest
-from lighting import changeLight
+from lighting import setLight
+from dht11 import checkTemperatureAndHumidity
+import threading
 
 reader = SimpleMFRC522()
 roomID = "1234"
@@ -28,12 +30,21 @@ def printRoomInfo():
     print("The current settings of this room are: ", roomInfo["settings"])
 
 def setToPreferences():
-    changeLight(roomInfo["settings"]["lightColor"], roomInfo["settings"]["lightBrightness"])
+    setLight(roomInfo["settings"]["lightColor"], roomInfo["settings"]["lightBrightness"])
+    checkTemperatureAndHumidity(roomInfo["settings"]["temperatureInF"], roomInfo["settings"]["humidity"])
+
+def weatherCheck():
+    while True:
+        time.sleep(60*15)
+        checkTemperatureAndHumidity(roomInfo["settings"]["temperatureInF"], roomInfo["settings"]["humidity"])
+
+weatherCheckThread = threading.Thread(target=weatherCheck, daemon=True)
 
 try:
     roomInfo = getRoomInfo()
     setToPreferences()
     printRoomInfo()
+    weatherCheckThread.start()
     while True:
         print("Scanner ready to scan. You may scan now")
         user = scanUserAndReturnRoomInfo()
