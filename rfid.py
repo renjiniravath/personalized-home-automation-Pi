@@ -20,7 +20,6 @@ try:
         if value == "Y":
             name = input("Enter the updated name: ")
             writeValue(name)
-            readValue()
         else:
             print("Thank you!")
         time.sleep(2)

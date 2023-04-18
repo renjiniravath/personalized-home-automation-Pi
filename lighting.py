@@ -1,10 +1,9 @@
 import RPi.GPIO as GPIO
+import environment
 
 redPin = 11
 greenPin = 13
 bluePin = 15
-
-brightness = 0
 
 GPIO.setmode(GPIO.BOARD)
 GPIO.setup(redPin, GPIO.OUT)
@@ -21,7 +20,7 @@ pwmBlue.start(0)
 
 
 def blink(pin):
-    pin.ChangeDutyCycle(brightness)
+    pin.ChangeDutyCycle(environment.settings["lightBrightness"])
 
 def turnOff(pin):
 	pin.ChangeDutyCycle(0)
@@ -57,9 +56,8 @@ def lightsOff():
 	turnOff(pwmGreen)
 	turnOff(pwmBlue)
 
-def setLight(lightColor, lightBrightness):
-	global brightness
-	brightness = lightBrightness
+def setLight():
+	lightColor = environment.settings["lightColor"]
 	lightsOff()
 	if lightColor == "Red":
 		redOn()
