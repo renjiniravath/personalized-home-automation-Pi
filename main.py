@@ -7,6 +7,7 @@ from dht11 import checkTemperatureAndHumidity
 import threading
 import environment
 from display import displayStats, displayMessage
+from fan import changeMotorSpeed
 
 reader = SimpleMFRC522()
 roomID = "1234"
@@ -33,6 +34,7 @@ def setToPreferences(roomInfo):
     environment.settings = roomInfo["settings"]
     setLight()
     checkTemperatureAndHumidity()
+    changeMotorSpeed()
 
 
 def weatherCheck():
