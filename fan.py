@@ -10,6 +10,7 @@ GPIO.setup(motorPin1, GPIO.OUT)
 GPIO.setup(motorPin2, GPIO.OUT)
 GPIO.setup(motorPinE, GPIO.OUT)
 
+GPIO.output(motorPin1,GPIO.HIGH)
 pwmMotor = GPIO.PWM(motorPinE, 50)
 
 pwmMotor.start(0)
