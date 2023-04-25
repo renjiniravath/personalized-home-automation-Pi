@@ -51,3 +51,9 @@ Run the below commands to start the program
 sudo pip3 install -r requirements.txt
 sudo python3 main.py
 ```
+## Circuit Diagram
+
+Following is the circuit diagram for the connection of room devices to the Raspberry Pi controller:
+
+![Circuit diagram](images/pinDiagram.png)
+
