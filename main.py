@@ -1,15 +1,15 @@
 import RPi.GPIO as GPIO
 from mfrc522 import SimpleMFRC522
 import time
-from handler import makeAPIRequest
-from lighting import setLight
-from dht11 import checkTemperatureAndHumidity
+from src.handler import makeAPIRequest
+from src.lighting import setLight
+from src.dht11 import checkTemperatureAndHumidity
 import threading
-import environment
-from display import displayStats, displayMessage
-from fan import changeMotorSpeed
-from scanIndicator import *
-from subscriber import mqttSetup
+import src.environment as environment
+from src.display import displayStats, displayMessage
+from src.fan import changeMotorSpeed
+from src.scanIndicator import *
+from src.subscriber import mqttSetup
 
 reader = SimpleMFRC522()
 roomID = "1234"

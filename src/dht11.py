@@ -1,6 +1,6 @@
 import Adafruit_DHT
 import RPi.GPIO as GPIO
-import environment
+import src.environment as environment
 
 heaterPin = 37
 coolerPin = 38

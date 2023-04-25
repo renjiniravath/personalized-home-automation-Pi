@@ -1,6 +1,6 @@
 from RPLCD import i2c
 from time import sleep
-import environment
+import src.environment as environment
 
 # constants to initialise the LCD
 lcdmode = 'i2c'

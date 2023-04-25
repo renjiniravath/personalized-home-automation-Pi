@@ -1,5 +1,5 @@
 import paho.mqtt.client as mqtt
-import environment
+import src.environment as environment
 
 def on_connect(client, userdata, flags, rc):
     print("Connected to MQTT broker")

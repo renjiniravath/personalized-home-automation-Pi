@@ -1,5 +1,5 @@
 import RPi.GPIO as GPIO
-import environment
+import src.environment as environment
 
 redPin = 11
 greenPin = 13

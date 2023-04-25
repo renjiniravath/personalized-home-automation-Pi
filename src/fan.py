@@ -1,5 +1,5 @@
 import RPi.GPIO as GPIO
-import environment
+import src.environment as environment
 
 motorPin1 = 35
 motorPin2 = 33

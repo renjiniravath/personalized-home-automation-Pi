@@ -1,6 +1,6 @@
 import http.client
 import json
-from display import displayMessage
+from src.display import displayMessage
 
 def makeAPIRequest(method, url):
     apiConn = http.client.HTTPConnection("192.168.0.191", 8080, timeout=10)
