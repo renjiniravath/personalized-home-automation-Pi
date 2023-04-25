@@ -40,6 +40,12 @@ You will also need a running instance of Personalized Home Automation API.
 
 * [Personalized Home Automation API](https://github.com/renjiniravath/personalized-home-automation-api)
 
+## Circuit Diagram
+
+Following is the circuit diagram for the connection of room devices to the Raspberry Pi controller:
+
+![Circuit diagram](images/pinDiagram.png)
+
 ## Environment Variables
 
 The environment variables used by the API is listed in the .env file. Replace these values according to your environment. Refer the [.env](.env) file for info on the environment variables.
@@ -51,9 +57,5 @@ Run the below commands to start the program
 sudo pip3 install -r requirements.txt
 sudo python3 main.py
 ```
-## Circuit Diagram
 
-Following is the circuit diagram for the connection of room devices to the Raspberry Pi controller:
-
-![Circuit diagram](images/pinDiagram.png)
 
