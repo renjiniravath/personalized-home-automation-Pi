@@ -16,3 +16,5 @@ occupants = []
 heaterStatus = "OFF"
 coolerStatus = "OFF"
 humidifierStatus = "OFF"
+
+mqttClient = None

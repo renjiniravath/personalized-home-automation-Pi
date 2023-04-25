@@ -8,6 +8,8 @@ import threading
 import environment
 from display import displayStats, displayMessage
 from fan import changeMotorSpeed
+from scanIndicator import *
+from subscriber import mqttSetup
 
 reader = SimpleMFRC522()
 roomID = "1234"
@@ -36,36 +38,55 @@ def setToPreferences(roomInfo):
     checkTemperatureAndHumidity()
     changeMotorSpeed()
 
+def changeSubscription():
+    environment.mqttClient.unsubscribe('#')
+    if(len(environment.occupants) > 0):
+        environment.mqttClient.subscribe('preferences/'+'-'.join(environment.occupants))
 
 def weatherCheck():
     while True:
         time.sleep(60*15)
         checkTemperatureAndHumidity()
 
+def refreshPreferences(client, userdata, message):
+    print("Message received from broker. Topic: ", message.topic, " Content: ", message.payload)
+    roomInfo = getRoomInfo()
+    setToPreferences(roomInfo)
+    printRoomInfo()
+
 
 weatherCheckThread = threading.Thread(target=weatherCheck, daemon=True)
 displayThread = threading.Thread(target=displayStats, daemon=True)
+mqttSubscriberThread = threading.Thread(target=mqttSetup, daemon=True)
 
 try:
     roomInfo = getRoomInfo()
+    mqttSubscriberThread.start()
     if roomInfo != {}:
+        environment.mqttClient.on_message = refreshPreferences
         setToPreferences(roomInfo)
+        changeSubscription()
         printRoomInfo()
         weatherCheckThread.start()
         displayThread.start()
         while True:
             print("Scanner ready to scan. You may scan now")
+            scanAwait()
             user = scanUserAndReturnRoomInfo()
             roomInfo = updateUserScan(user)
             if roomInfo != {}:
+                scanSuccess()
                 if user in environment.occupants:
                     displayMessage("Goodbye "+user + "!")
                 else:
                     displayMessage("Welcome to the room "+user + "!")
                 setToPreferences(roomInfo)
+                changeSubscription()
                 printRoomInfo()
+            else:
+                scanFail()
             print("Wait till prompted other wise to scan again")
-            time.sleep(3)
+            time.sleep(2.5)
     
 except KeyboardInterrupt:
     GPIO.cleanup()
