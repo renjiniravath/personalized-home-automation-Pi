@@ -1,9 +1,10 @@
 import http.client
 import json
 from src.display import displayMessage
+from decouple import config
 
 def makeAPIRequest(method, url):
-    apiConn = http.client.HTTPConnection("192.168.0.191", 8080, timeout=10)
+    apiConn = http.client.HTTPConnection(config('API_URL_HOST'), int(config('API_URL_PORT')), timeout=10)
     apiConn.request(method, url)
     res = apiConn.getresponse()
     if res.status == 401:
